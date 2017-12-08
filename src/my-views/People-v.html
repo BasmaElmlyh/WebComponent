@@ -1,0 +1,40 @@
+
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../shared-styles.html">
+<link rel="import" href="../components/Person-v.html">
+
+<dom-module id="people-v">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+    </style>
+
+    <h1>People :</h1>
+    <template is="dom-repeat" items="{{people}}" as="person">
+      <person-v person="[[person]]"></person-v>
+    </template>
+  </template>
+
+  <script>
+    class peopleView extends Polymer.Element {
+      static get is() { return   'people-v'; }
+      static get observers(){
+        return ['_routeChanged(route.*)'];
+      }
+      connectedCallback(){
+        super.connectedCallback();
+        fetch('https://swapi.co/api/people/').then(variable=>variable.json().then(var1=>this.people=var1.results));
+      }
+      _routeChanged(change){
+        if(change.value.path==='/people')
+        fetch('https://swapi.co/api/people/').then(variable=>variable.json().then(var1=>this.people=var1.results));
+      }
+    }
+
+    window.customElements.define(peopleView.is, peopleView);
+  </script>
+</dom-module>

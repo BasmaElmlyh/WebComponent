@@ -1,0 +1,59 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="starship-details-v">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+    </style>
+    <app-route
+    route="{{route}}"
+    pattern="/:id"
+    data="{{routeData}}"
+    tail="{{subroute}}">
+</app-route>
+<h1>Starship :</h1> 
+Name : {{starship.name}}
+<br>
+Model : {{starship.model}}
+<br>
+Manufacturer : {{starship.manufacturer}}
+<br>
+Passengers : {{starship.passengers}}
+<br>
+Consumables : {{starship.consumables}}
+<br>
+Hyperdrive_rating : {{starship.hyperdrive_rating}}
+<br>
+  </template>
+
+  <script>
+    class starshipDetailsView extends Polymer.Element {
+      static get is() { return 'starship-details-v'; }
+
+      static get properties(){
+        return {
+          starship: {
+            type: Object,
+            observer:"refrechData"
+          }
+        }
+      }
+
+      connectedCallback(){
+        super.connectedCallback();
+        fetch('https://swapi.co/api/starships/'+this.routeData.id).then(variable=>variable.json().then(var1=>this.starship=var1));
+      }
+      refrechData(){
+       
+        fetch('https://swapi.co/api/starships/'+this.routeData.id).then(variable=>variable.json().then(var1=>this.starship=var1));
+      }
+    }
+
+    window.customElements.define(starshipDetailsView.is, starshipDetailsView);
+  </script>
+</dom-module>

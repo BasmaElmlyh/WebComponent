@@ -1,0 +1,36 @@
+
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="person-v">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+    </style>
+
+   {{person.name}}
+   <a href="/person-details/[[id]]" style="font-size:50%">For more details</a>
+</template>
+  <script>
+    class personView extends Polymer.Element {
+      static get is() { return 'person-v'; }
+      static get properties(){
+          return {person:Object,id:Number}
+      }
+      connectedCallback(){
+        super.connectedCallback();
+        this.id=this.getId();
+      }
+      getId(){
+        let tab=this.person.url.split('/');
+        return tab[tab.length-2];
+      }
+    }
+
+    window.customElements.define(personView.is, personView);
+  </script>
+</dom-module>

@@ -1,0 +1,28 @@
+
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="film-v">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+    </style>
+
+    {{film.title}}
+   <a href="/film-details/[[film.episode_id]]" style="font-size:50%">For more details</a>
+</template>
+  <script>
+    class filmView extends Polymer.Element {
+      static get is() { return 'film-v'; }
+      static get properties(){
+          return {film:Object}
+      }
+    }
+
+    window.customElements.define(filmView.is, filmView);
+  </script>
+</dom-module>

@@ -1,0 +1,35 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../shared-styles.html">
+
+<dom-module id="starship-v">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+    </style>
+
+   {{starship.name}}
+   <a href="/starship-details/[[id]]" style="font-size:50%">For more details</a>
+</template>
+  <script>
+    class starshipView extends Polymer.Element {
+      static get is() { return 'starship-v'; }
+      static get properties(){
+          return {starship:Object,id:Number}
+      }
+      connectedCallback(){
+        super.connectedCallback();
+        this.id=this.getId();
+      }
+      getId(){
+        let tab=this.starship.url.split('/');
+        return tab[tab.length-2];
+      }
+    }
+
+    window.customElements.define(starshipView.is, starshipView);
+  </script>
+</dom-module>

@@ -1,0 +1,43 @@
+
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../shared-styles.html">
+<link rel="import" href="../components/Film-v.html">
+
+<dom-module id="films-v">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+    </style>
+
+    <h1 > Film : </h1>
+    
+    <template is="dom-repeat" items="{{films}}" as="film">
+      <film-v film="[[film]]"></film-v>
+    </template>
+    
+    
+  </template>
+
+  <script>
+    class filmsView extends Polymer.Element {
+      static get is() { return 'films-v'; }
+      static get observers(){
+        return ['_routeChanged(route.*)'];
+      }
+      connectedCallback(){
+        super.connectedCallback();
+        fetch('https://swapi.co/api/films/').then(variable=>variable.json().then(var1=>this.films=var1.results));
+      }
+      _routeChanged(change){
+        if(change.value.path==='/films')
+        fetch('https://swapi.co/api/films/').then(variable=>variable.json().then(var1=>this.films=var1.results));
+      }
+    }
+
+    window.customElements.define(filmsView.is, filmsView);
+  </script>
+</dom-module>

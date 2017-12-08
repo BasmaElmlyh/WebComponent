@@ -1,0 +1,41 @@
+
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../shared-styles.html">
+<link rel="import" href="../components/Starship-v.html">
+
+<dom-module id="starships-v">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+    </style>
+
+    <h1>Starships</h1>
+    
+    <template is="dom-repeat" items="{{starships}}" as="starship">
+      <starship-v starship="[[starship]]"></starship-v>
+    </template>
+  </template>
+
+  <script>
+    class starshipsView extends Polymer.Element {
+      static get is() { return 'starships-v'; }
+      static get observers(){
+        return ['_routeChanged(route.*)'];
+      }
+      connectedCallback(){
+        super.connectedCallback();
+        fetch('https://swapi.co/api/starships/').then(variable=>variable.json().then(var1=>this.starships=var1.results));
+      }
+      _rootChanged(change){
+        if(change.value.path==='/starship')
+        fetch('https://swapi.co/api/starships').then(variable=>variable.json().then(var1=>this.starships=var1.results));
+      }
+    }
+
+    window.customElements.define(starshipsView.is, starshipsView);
+  </script>
+</dom-module>
